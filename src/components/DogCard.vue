@@ -99,8 +99,11 @@
         &:not(.is-flipped){
             background:var(--primary-color);
         }
-        &:hover:not(.is-flipped){
-            transform: rotateX(-15deg);
+        &:hover{
+            cursor: pointer;
+            &:not(.is-flipped){
+                transform: rotateX(-15deg);
+            }
         }
     }
   
