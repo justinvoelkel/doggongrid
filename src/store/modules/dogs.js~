@@ -1,0 +1,51 @@
+import { getDogs } from '../../api/dogs'
+
+const getBreed = (imageUrl) => {
+  let breed = 'unknown'
+  // not sure if these will always work so catch error and continue
+  try{
+    var regexp = /breeds\/([A-Za-z-]*)\//g
+    let [,firstCap] = regexp.exec(imageUrl)
+    breed = firstCap.replace('-', ' ').split(" ").reverse().join(" ")
+  } catch (e) {
+    console.error(e)
+  }
+  return breed
+}
+
+const state = {
+  all: []
+}
+
+const mutations = {
+  setAllDogs(state, dogs) {
+    state.all = dogs
+  }
+}
+
+const getters = {
+  breeds: ({all}) => {
+    const unique = new Set(all.map(({breed}) => breed))
+    return [...unique]
+  }
+}
+
+const actions = {
+  getDogImages({ commit }, total){
+    getDogs(total)
+      .then(({ data }) => {
+        // map urls to objects with breed property gathered from regexp
+        const dogObjects = data.message
+              .map(image => ({breed: getBreed(image), image}))
+        commit('setAllDogs', dogObjects)
+      })
+  }
+}
+
+export default {
+  namespaced: true,
+  state,
+  actions,
+  getters,
+  mutations
+}

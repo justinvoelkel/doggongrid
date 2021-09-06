@@ -1,0 +1,97 @@
+<template>
+  <div class="card-scene">
+    <div :class="cardStyles">
+      <div class="card-face front" v-on:click="flip">
+        <img :src="image" :alt="breed"/>
+      </div>
+      <div class="card-face back" v-on:click="flip">
+        <div class="content">
+          <h2>{{breed}}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  export default{
+    name: 'DogCard',
+    props:{
+      image: {
+        required: true,
+        type: String
+      },
+      breed: {
+        required: true,
+        type: String
+      }
+    },
+    data(){
+      return {
+        flipped: false
+      }
+    },
+    methods:{
+      flip(){
+        this.flipped = !this.flipped
+      }
+    },
+    computed:{
+      cardStyles(){
+        return ['card', {'is-flipped': this.flipped}]
+      }
+    }
+  }
+</script>
+<style lang="scss">
+.card-scene{
+    min-width: 300px;
+    min-height: 300px;
+    flex:1;
+    perspective: 400px;
+    .card{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transition: transform 1s;
+        transform-style: preserve-3d;
+
+        .card-face{
+            position:absolute;
+            height: 100%;
+            width: 100%;
+            backface-visibility: hidden;
+
+            img {
+                height:100%;
+                width: 100%;
+                object-fit: cover;
+            }
+
+            &.back{
+                background-color: #6930c3;
+                color: #80ffdb;
+                height:100%;
+                width:100%;
+                transform: rotateX(180deg);
+                display: flex;
+
+                .content{
+                    text-align:center;
+                    border:1px solid #80ffdb;
+                    flex:1;
+                    padding:20px;
+                    margin:20px;
+                }
+            }
+        }
+        &.is-flipped{
+            transform: rotateX(180deg);
+        }
+        &:hover:not(.is-flipped){
+            transform: rotateX(-15deg);
+        }
+
+    }
+  
+  }
+</style>

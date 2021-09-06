@@ -1,0 +1,25 @@
+<template>
+<div class="doggon-grid">
+  <slot></slot>
+</div>
+</template>
+<script>
+  export default{
+    name: 'ResponsiveGrid'
+  }
+</script>
+<style lang="scss">
+  .doggon-grid{
+      display: flex;
+      flex-flow: row wrap;
+      //justify-content: space-around;
+      div {
+          height: 300px;
+          img {
+              max-height:100%;
+              object-fit: contain;
+              margin: 0 auto;
+          }
+      }
+  }
+</style>

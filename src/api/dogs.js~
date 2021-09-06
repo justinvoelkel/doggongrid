@@ -1,0 +1,7 @@
+import axios from 'axios'
+
+const baseUrl = 'https://dog.ceo/api'
+
+export const getDogs = (total = 50) => {
+  return axios.get(`${baseUrl}/breeds/image/random/${total}`)
+}
